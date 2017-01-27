@@ -3,3 +3,26 @@
     update_cache: yes
   with_items:
     - make
+    - diffstat
+    - chrpath
+    - gcc
+    - g++
+    - texi2html
+    - texinfo
+    - git
+
+
+- user:
+    name: yocto
+    group: yocto
+    comment: "User for building yoctos images"
+
+- file:
+    path: /u02/yocto
+    state: directory
+    owner: yocto
+    group: yocto
+    mode: 0755
+
+
+
