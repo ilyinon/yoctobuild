@@ -11,52 +11,64 @@
     - texinfo
     - git
 
+- group:
+    name: "{{basegroup}}"
 
 - user:
-    name: yocto
-    group: yocto
+    name: "{{baseuser}}"
+    group: "{{basegroup}}"
     comment: "User for building yoctos images"
 
 - file:
-    path: /u02/yocto
+    path: "{{basedir}}"
     state: directory
     mode: 0755
 
 - git:
     repo: https://git.yoctoproject.org/git/poky
-    dest: /u02/yocto/ 
+    dest: "{{basedir}}" 
     version: jethro
     force: yes
 
 - git:
     repo: https://github.com/meta-debian/meta-debian.git
-    dest: /u02/yocto/meta-debian
+    dest: "{{basedir}}/meta-debian"
     version: jethro
     force: yes
 
-- file:
-    path: /u02/yocto
-    state: directory
-    owner: yocto
-    group: yocto
-    mode: 0755
-    recurse: yes
-
-
 - copy: 
-    src: /u02/yocto/meta-debian/conf/local.conf.sample
-    dest: /u02/yocto/meta-debian/conf/local.conf
-    owner: yocto
-    group: yocto
+    src: "{{basedir}}/meta-debian/conf/local.conf.sample"
+    dest: "{{basedir}}/meta-debian/conf/local.conf"
+    owner: "{{baseuser}}"
+    group: "{{basegroup}}"
     mode: 0644
 
 - lineinfile:
-    name: /u02/yocto/meta-debian/conf/local.conf
+    name: "{{basedir}}/meta-debian/conf/local.conf"
     regexp: '^MACHINE \?\?= \"qemux86\"'
     line: '#MACHINE \?\?= \"qemux86\"'
 
 - lineinfile:
-    name: /u02/yocto/meta-debian/conf/local.conf
+    name: "{{basedir}}/meta-debian/conf/local.conf"
     regexp: '^#MACHINE \?\= \"qemumips\"'
     line: 'MACHINE \?\= \"qemumips\"'
+
+- name: "Execute command for pre-build env"
+  sudo: no
+  shell: "source oe-init-build-env"
+  args:
+      chdir: "{{basedir}}"
+      executable: /bin/bash
+
+- copy: 
+    src: "{{basedir}}/meta-debian/conf/"
+    dest: "{{basedir}}/build/conf/"
+
+- file:
+    path: "{{basedir}}"
+    state: directory
+    owner: "{{baseuser}}"
+    group: "{{basegroup}}"
+    mode: 0755
+    recurse: yes
 

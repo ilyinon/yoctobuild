@@ -2,6 +2,10 @@
   connection: local
   gather_facts: no
   any_errors_fatal: true
+  vars:
+    basedir: "/u02/yocto"
+    baseuser: "yocto"
+    basegroup: "yocto"
   tasks:
     - include: prepare_host.yml
       tags: prepare_host
