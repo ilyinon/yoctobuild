@@ -51,11 +51,11 @@
 - lineinfile:
     name: "{{basedir}}/meta-debian/conf/local.conf"
     regexp: '^#MACHINE \?\= \"qemumips\"'
-    line: 'MACHINE \?\= \"qemumips\"'
+    line: 'MACHINE ?= \"qemumips\"'
 
 - name: "Execute command for pre-build env"
   sudo: no
-  shell: "source oe-init-build-env"
+  shell: "export TEMPLATECONF=meta-debian/conf; source oe-init-build-env"
   args:
       chdir: "{{basedir}}"
       executable: /bin/bash
