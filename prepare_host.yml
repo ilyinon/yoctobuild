@@ -10,6 +10,7 @@
     - texi2html
     - texinfo
     - git
+    - sudo
 
 - group:
     name: "{{basegroup}}"
