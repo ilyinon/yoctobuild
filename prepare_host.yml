@@ -73,3 +73,15 @@
     mode: 0755
     recurse: yes
 
+- copy:
+    src: "./files/tune-mips32r5.inc"
+    dest: "{{basedir}}/meta/conf/machine/include/tune-mips32r5.inc"
+    owner: "{{baseuser}}"
+    group: "{{basegroup}}"
+    mode: 0644
+
+- lineinfile:
+    name: "{{basedir}}/meta/conf/machine/qemumips.conf"
+    regexp: 'tune-mips32r2.inc'
+    line: 'require conf/machine/include/tune-mips32r5.inc'
+

@@ -16,3 +16,7 @@ bitbake core-image-minimal
 runqemu qemumips nographic bootparams="console=ttyAMA0"
 ( yocto user have to have sudo permission)
 
+
+iptables examples:
+iptables -t nat -A PREROUTING -p tcp -i eth1 --dport 2022 -j DNAT --to-destination 192.168.22.45:22
+iptables -A FORWARD -p tcp -d 192.168.22.45 --dport 22 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
