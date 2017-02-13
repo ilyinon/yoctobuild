@@ -12,6 +12,7 @@
     - git
     - sudo
     - gawk
+    - device-tree-compiler
 
 - group:
     name: "{{basegroup}}"
